@@ -71,7 +71,7 @@ const rekognition = new AWS.Rekognition();
 
 /**
  * @swagger
- * /profile:
+ * /detectPPE:
  *   post:
  *     description: Return the PPE detection of an image uploaded
  *     consumes:
@@ -80,6 +80,7 @@ const rekognition = new AWS.Rekognition();
  *       - in: formData
  *         name: image
  *         type: file
+ *         required: true
  *         description: The file to upload.
  *     produces:
  *       - application/json
@@ -91,9 +92,10 @@ const rekognition = new AWS.Rekognition();
  *       500:
  *         description: Only images are allowed
  */
-app.post('/profile', upload.any(), function (req, res) {
+app.post('/detectPPE', upload.any(), function (req, res) {
     if(localFileName.length == 0)
         res.status(400).send("File can't be empty");
+    
     var params = {
         Image: {
             Bytes: getFile(`./images/${localFileName}`)
