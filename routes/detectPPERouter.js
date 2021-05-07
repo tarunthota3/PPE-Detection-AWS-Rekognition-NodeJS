@@ -1,9 +1,9 @@
 const router = require("express").Router();
-var multer = require('multer')
-var AWS = require('aws-sdk')
-var fs = require('fs')
-var path = require('path')
-require("dotenv").config();
+var multer = require('multer');
+var rekognition = require('../config/aws');
+var fs = require('fs');
+var path = require('path');
+
 
 var localFileName = "";
 var storage = multer.diskStorage({
@@ -27,12 +27,6 @@ var upload = multer({
     }
 })
 
-AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION
-})
-
 function getFile(path) {
     try {
         const image = fs.readFileSync(path)
@@ -43,7 +37,6 @@ function getFile(path) {
         process.exit()
     }
 }
-const rekognition = new AWS.Rekognition();
 
 
 /**
